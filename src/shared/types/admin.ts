@@ -41,14 +41,56 @@ export type UserStoragesResponse = {
   storages: UserStorage[];
 };
 
+export type StorageUsageEntry = {
+  userId: number;
+  email: string;
+  usedBytes: number;
+};
+
+export type UploadLeaderEntry = {
+  userId: number;
+  email: string;
+  uploads: number;
+};
+
+export type SuspiciousTrafficEntry = {
+  userId: number;
+  email: string;
+  requests: number;
+  authErrors: number;
+  forbiddens: number;
+  uniqueIps: number;
+  uniqueAgents: number;
+  uniquePaths: number;
+  peakRequestsPerMinute: number;
+  suspiciousScore: number;
+  signals: string[];
+};
+
+export type InactiveAccountEntry = {
+  userId: number;
+  email: string;
+  lastActivityAt: string | null;
+};
+
+export type MostLoadedFolderEntry = {
+  folderId?: string;
+  folderName?: string;
+  userId?: number;
+  email?: string;
+  count?: number;
+  label?: string;
+  value?: number;
+};
+
 export type AdminStatistics = {
   periodDays: number;
   generatedAt: string;
-  storageUsageTop: { label: string; value: number }[];
-  uploadLeaders: { label: string; value: number }[];
-  suspiciousTraffic: { label: string; value: number }[];
-  mostLoadedFolders: { label: string; value: number }[];
-  inactiveAccounts: { label: string; value: number }[];
+  storageUsageTop: StorageUsageEntry[];
+  uploadLeaders: UploadLeaderEntry[];
+  suspiciousTraffic: SuspiciousTrafficEntry[];
+  mostLoadedFolders: MostLoadedFolderEntry[];
+  inactiveAccounts: InactiveAccountEntry[];
 };
 
 export type SupportTicket = {

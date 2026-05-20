@@ -2,77 +2,81 @@ import Link from "next/link";
 import { Card } from "@/shared/ui/card";
 import { AdminStatistics } from "@/shared/types/admin";
 import { formatBytes } from "@/shared/lib/format-bytes";
-import { normalizeStatRows } from "@/shared/lib/normalize-stat-row";
 
 type Props = { stats: AdminStatistics };
 
-function sumValues(rows: { value: number }[]) {
-  return rows.reduce((a, r) => a + (Number.isFinite(r.value) ? r.value : 0), 0);
-}
-
 export function StatsOverview({ stats }: Props) {
-  const storageRows = normalizeStatRows(stats.storageUsageTop as unknown[]);
-  const uploadRows = normalizeStatRows(stats.uploadLeaders as unknown[]);
-  const trafficRows = normalizeStatRows(stats.suspiciousTraffic as unknown[]);
-  const inactiveRows = normalizeStatRows(stats.inactiveAccounts as unknown[]);
-  const folderRows = normalizeStatRows(stats.mostLoadedFolders as unknown[]);
-
-  const storageSum = sumValues(storageRows);
-  const uploadSum = sumValues(uploadRows);
+  const totalStorage = stats.storageUsageTop.reduce((s, r) => s + r.usedBytes, 0);
+  const totalUploads = stats.uploadLeaders.reduce((s, r) => s + r.uploads, 0);
+  const maxScore = stats.suspiciousTraffic.reduce((m, r) => Math.max(m, r.suspiciousScore), 0);
+  const inactiveCount = stats.inactiveAccounts.length;
 
   const cards = [
     {
       label: "Storage usage (top)",
-      primary: storageRows.length ? formatBytes(storageSum) : "—",
-      hint: storageRows.length ? `${storageRows.length} в топе` : "Нет данных",
+      primary: stats.storageUsageTop.length ? formatBytes(totalStorage) : "—",
+      hint: stats.storageUsageTop.length ? `${stats.storageUsageTop.length} пользователей в топе` : "Нет данных",
       href: "/admin/statistics/storageUsageTop",
+      accent: "blue",
     },
     {
       label: "Upload leaders",
-      primary: uploadRows.length ? String(Math.round(uploadSum)) : "—",
-      hint: uploadRows.length ? `${uploadRows.length} пользователей в списке` : "Нет данных",
+      primary: stats.uploadLeaders.length ? String(totalUploads) : "—",
+      hint: stats.uploadLeaders.length ? `${stats.uploadLeaders.length} пользователей, ${totalUploads} загрузок` : "Нет данных",
       href: "/admin/statistics/uploadLeaders",
+      accent: "green",
     },
     {
       label: "Suspicious traffic",
-      primary: trafficRows.length ? String(trafficRows.length) : "—",
-      hint: "Флаги / события в периоде",
+      primary: stats.suspiciousTraffic.length ? String(stats.suspiciousTraffic.length) : "—",
+      hint: stats.suspiciousTraffic.length ? `Макс. score: ${maxScore}` : "Нет подозрений",
       href: "/admin/statistics/suspiciousTraffic",
+      accent: maxScore >= 50 ? "red" : maxScore >= 20 ? "yellow" : "green",
     },
     {
       label: "Inactive accounts",
-      primary: inactiveRows.length ? String(inactiveRows.length) : "—",
-      hint: "Аккаунты без активности",
+      primary: inactiveCount ? String(inactiveCount) : "—",
+      hint: inactiveCount ? `${inactiveCount} без активности` : "Нет данных",
       href: "/admin/statistics/inactiveAccounts",
+      accent: "slate",
     },
-  ];
+  ] as const;
+
+  const accentBorder: Record<string, string> = {
+    blue: "hover:border-blue-500/60",
+    green: "hover:border-emerald-500/60",
+    red: "hover:border-rose-500/60",
+    yellow: "hover:border-amber-500/60",
+    slate: "hover:border-slate-500/60",
+  };
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {cards.map((item) => (
         <Link key={item.label} href={item.href} className="block">
-          <Card className="transition hover:border-blue-500/60">
+          <Card className={`h-full transition ${accentBorder[item.accent]}`}>
             <p className="text-sm text-muted">{item.label}</p>
             <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">{item.primary}</p>
-            <p className="mt-1 text-xs text-muted">{item.hint} • Нажмите, чтобы открыть список</p>
+            <p className="mt-1 text-xs text-muted">{item.hint}</p>
+            <p className="mt-2 text-xs text-blue-500">Открыть список →</p>
           </Card>
         </Link>
       ))}
-      {folderRows.length > 0 ? (
+
+      {stats.mostLoadedFolders.length > 0 ? (
         <Card className="sm:col-span-2 xl:col-span-4">
           <Link href="/admin/statistics/mostLoadedFolders" className="text-sm text-muted hover:text-blue-500">
             Most loaded folders
           </Link>
-          <p className="mt-2 text-lg font-medium text-foreground">{folderRows.length} папок в топе</p>
           <ul className="mt-3 flex flex-wrap gap-2">
-            {folderRows.slice(0, 6).map((r) => (
+            {stats.mostLoadedFolders.slice(0, 6).map((r, i) => (
               <Link
-                key={r.label}
+                key={i}
                 href="/admin/statistics/mostLoadedFolders"
                 className="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs text-foreground transition hover:border-blue-500/60"
               >
-                <span className="text-muted">{r.label}</span>
-                <span className="ml-2 font-mono text-blue-500">{r.value}</span>
+                <span className="text-muted">{r.folderName ?? r.label ?? `#${i + 1}`}</span>
+                <span className="ml-2 font-mono text-blue-500">{r.count ?? r.value ?? 0}</span>
               </Link>
             ))}
           </ul>

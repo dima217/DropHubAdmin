@@ -16,23 +16,38 @@ type RequestOptions = {
   token?: string;
   body?: unknown;
   cache?: RequestCache;
+  timeoutMs?: number;
 };
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}) {
-  const res = await fetch(`${env.apiBaseUrl}${path}`, {
-    method: options.method ?? "GET",
-    cache: options.cache ?? "no-store",
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
-    },
-    ...(options.body ? { body: JSON.stringify(options.body) } : {}),
-  });
+  const { timeoutMs = 8000 } = options;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-  if (!res.ok) {
-    const text = await res.text();
-    throw new ApiError(text || "API request failed", res.status);
+  try {
+    const res = await fetch(`${env.apiBaseUrl}${path}`, {
+      method: options.method ?? "GET",
+      cache: options.cache ?? "no-store",
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
+      },
+      ...(options.body ? { body: JSON.stringify(options.body) } : {}),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new ApiError(text || "API request failed", res.status);
+    }
+
+    return (await res.json()) as T;
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      throw new ApiError(`Backend timeout (${timeoutMs}ms) — проверь NEXT_PUBLIC_API_BASE_URL в .env.local`, 504);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
   }
-
-  return (await res.json()) as T;
 }
