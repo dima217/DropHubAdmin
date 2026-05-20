@@ -69,7 +69,7 @@ export function SupportList({ tickets }: Props) {
               {ticket.status}
             </Badge>
           </div>
-          <p className="text-sm text-slate-300">{ticket.details}</p>
+          <p className="text-sm text-muted">{ticket.details}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Button onClick={() => setActiveTicket(ticket)}>Ответить</Button>
             {ticket.status !== "resolved" ? (

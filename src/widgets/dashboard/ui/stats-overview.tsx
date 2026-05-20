@@ -52,27 +52,27 @@ export function StatsOverview({ stats }: Props) {
       {cards.map((item) => (
         <Link key={item.label} href={item.href} className="block">
           <Card className="transition hover:border-blue-500/60">
-            <p className="text-sm text-slate-400">{item.label}</p>
-            <p className="mt-2 text-3xl font-semibold tracking-tight text-white">{item.primary}</p>
-            <p className="mt-1 text-xs text-slate-500">{item.hint} • Нажмите, чтобы открыть список</p>
+            <p className="text-sm text-muted">{item.label}</p>
+            <p className="mt-2 text-3xl font-semibold tracking-tight text-foreground">{item.primary}</p>
+            <p className="mt-1 text-xs text-muted">{item.hint} • Нажмите, чтобы открыть список</p>
           </Card>
         </Link>
       ))}
       {folderRows.length > 0 ? (
         <Card className="sm:col-span-2 xl:col-span-4">
-          <Link href="/admin/statistics/mostLoadedFolders" className="text-sm text-slate-400 hover:text-blue-300">
+          <Link href="/admin/statistics/mostLoadedFolders" className="text-sm text-muted hover:text-blue-500">
             Most loaded folders
           </Link>
-          <p className="mt-2 text-lg font-medium text-white">{folderRows.length} папок в топе</p>
+          <p className="mt-2 text-lg font-medium text-foreground">{folderRows.length} папок в топе</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {folderRows.slice(0, 6).map((r) => (
               <Link
                 key={r.label}
                 href="/admin/statistics/mostLoadedFolders"
-                className="rounded-lg border border-slate-700/80 bg-slate-950/50 px-2.5 py-1 text-xs text-slate-300 transition hover:border-blue-500/60"
+                className="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs text-foreground transition hover:border-blue-500/60"
               >
-                <span className="text-slate-500">{r.label}</span>
-                <span className="ml-2 font-mono text-blue-300">{r.value}</span>
+                <span className="text-muted">{r.label}</span>
+                <span className="ml-2 font-mono text-blue-500">{r.value}</span>
               </Link>
             ))}
           </ul>

@@ -24,8 +24,8 @@ export function AdminLogoutButton({ className }: Props) {
       onClick={logout}
       disabled={pending}
       className={cn(
-        "flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700/80 bg-slate-900/50 px-3 py-2.5 text-sm font-medium text-slate-300 transition",
-        "hover:border-rose-500/40 hover:bg-rose-950/30 hover:text-rose-200",
+        "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface px-3 py-2.5 text-sm font-medium text-muted transition",
+        "hover:border-rose-500/40 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/30 dark:hover:text-rose-200",
         "disabled:opacity-50",
         className,
       )}

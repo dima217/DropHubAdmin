@@ -1,41 +1,40 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/shared/ui/button";
 
 export function AdminLoginForm() {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
 
   async function onSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-
-    const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email") ?? "");
-    const password = String(formData.get("password") ?? "");
+    setIsPending(true);
 
     try {
+      const formData = new FormData(event.currentTarget);
+      const email = String(formData.get("email") ?? "");
+      const password = String(formData.get("password") ?? "");
+
       const res = await fetch("/api/admin/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "same-origin",
       });
 
       if (!res.ok) {
-        const payload = await res.json().catch(() => ({}));
+        const payload = (await res.json().catch(() => ({}))) as { message?: string };
         setError(payload.message ?? "Login failed");
         return;
       }
 
-      startTransition(() => {
-        router.push("/admin/dashboard");
-      });
-    } catch (err) {
-      console.error(err);
+      window.location.assign("/admin/dashboard");
+    } catch {
       setError("Something went wrong. Please try again.");
+    } finally {
+      setIsPending(false);
     }
   }
 
@@ -46,22 +45,17 @@ export function AdminLoginForm() {
         type="email"
         required
         placeholder="Email"
-        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        className="w-full rounded-xl border border-border bg-input px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
       />
       <input
         name="password"
         type="password"
         required
         placeholder="Password"
-        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+        className="w-full rounded-xl border border-border bg-input px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
       />
       {error && <p className="text-sm text-rose-400">{error}</p>}
-      <Button
-        type="submit"
-        className="w-full"
-        disabled={isPending}
-        aria-busy={isPending}
-      >
+      <Button type="submit" className="w-full" disabled={isPending} aria-busy={isPending}>
         {isPending ? "Signing in..." : "Sign In"}
       </Button>
     </form>

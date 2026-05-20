@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminLogoutButton } from "@/features/auth/ui/admin-logout-button";
+import { ThemeToggle } from "@/features/theme/ui/theme-toggle";
 import { cn } from "@/shared/lib/cn";
 
 const links = [
@@ -15,15 +16,15 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-auto w-full shrink-0 flex-col border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-xl md:h-screen md:max-h-screen md:border-b-0 md:border-r md:w-[260px] md:sticky md:top-0">
-      <div className="border-b border-slate-800/80 px-5 py-6">
+    <aside className="flex h-auto w-full shrink-0 flex-col border-b border-border bg-surface backdrop-blur-xl md:sticky md:top-0 md:h-screen md:max-h-screen md:w-[260px] md:border-b-0 md:border-r">
+      <div className="border-b border-border px-5 py-6">
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/25">
             <span className="text-sm font-bold text-white">DH</span>
           </div>
           <div>
-            <p className="text-sm font-semibold tracking-tight text-white">DropHub</p>
-            <p className="text-xs text-slate-500">Admin</p>
+            <p className="text-sm font-semibold tracking-tight text-foreground">DropHub</p>
+            <p className="text-xs text-muted">Admin</p>
           </div>
         </div>
       </div>
@@ -38,18 +39,19 @@ export function AdminSidebar() {
               className={cn(
                 "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
                 active
-                  ? "bg-blue-500/15 text-white ring-1 ring-blue-500/30"
-                  : "text-slate-400 hover:bg-slate-800/60 hover:text-slate-100",
+                  ? "bg-blue-500/15 text-foreground ring-1 ring-blue-500/30"
+                  : "text-muted hover:bg-surface-hover hover:text-foreground",
               )}
             >
-              <Icon className={cn("size-5 shrink-0", active ? "text-blue-400" : "text-slate-500")} />
+              <Icon className={cn("size-5 shrink-0", active ? "text-blue-500" : "text-muted")} />
               {label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t border-slate-800/80 p-3">
+      <div className="space-y-2 border-t border-border p-3">
+        <ThemeToggle />
         <AdminLogoutButton />
       </div>
     </aside>

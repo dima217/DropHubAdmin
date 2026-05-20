@@ -1,14 +1,21 @@
 import { env } from "@/shared/config/env";
 import { NextRequest, NextResponse } from "next/server";
 
-type LoginResponse = {
-  accessToken?: string;
-  token?: string;
-  access_token?: string;
-};
+function pickToken(payload: unknown): string {
+  if (!payload || typeof payload !== "object") return "";
 
-function pickToken(payload: LoginResponse) {
-  return payload.accessToken ?? payload.token ?? payload.access_token ?? "";
+  const root = payload as Record<string, unknown>;
+  const direct = root.accessToken ?? root.token ?? root.access_token;
+  if (typeof direct === "string" && direct.trim()) return direct;
+
+  const nested = root.data;
+  if (nested && typeof nested === "object") {
+    const data = nested as Record<string, unknown>;
+    const nestedToken = data.accessToken ?? data.token ?? data.access_token;
+    if (typeof nestedToken === "string" && nestedToken.trim()) return nestedToken;
+  }
+
+  return "";
 }
 
 export async function POST(req: NextRequest) {
@@ -26,7 +33,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: message || "Login failed" }, { status: upstream.status });
   }
 
-  const payload = (await upstream.json()) as LoginResponse;
+  const payload: unknown = await upstream.json();
   const token = pickToken(payload);
   if (!token) {
     return NextResponse.json({ message: "Token is missing in auth response" }, { status: 502 });

@@ -18,39 +18,39 @@ export default async function UserDetailsPage({ params }: Props) {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/admin/users"
-            className="text-sm font-medium text-slate-400 hover:text-blue-400"
+            className="text-sm font-medium text-muted hover:text-blue-500"
           >
             ← К списку пользователей
           </Link>
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-white">{data.user.email}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{data.user.email}</h1>
         <Card>
-          <p className="text-slate-300">
-            <span className="text-slate-500">Роль:</span> {data.user.role}
+          <p className="text-foreground">
+            <span className="text-muted">Роль:</span> {data.user.role}
           </p>
-          <p className="mt-1 text-slate-300">
-            <span className="text-slate-500">Статус:</span>{" "}
+          <p className="mt-1 text-foreground">
+            <span className="text-muted">Статус:</span>{" "}
             {data.user.isBanned ? "Заблокирован" : "Активен"}
           </p>
         </Card>
 
         <div id="storages" className="scroll-mt-6 space-y-3">
-          <h2 className="text-lg font-semibold text-white">Хранилища</h2>
-          <p className="text-sm text-slate-500">
+          <h2 className="text-lg font-semibold text-foreground">Хранилища</h2>
+          <p className="text-sm text-muted">
             Откройте дерево файлов и папок (включая удалённые) для выбранного storage.
           </p>
           <div className="grid gap-3 md:grid-cols-2">
             {data.storages.length === 0 ? (
               <Card>
-                <p className="text-sm text-slate-400">У пользователя нет storage в ответе API.</p>
+                <p className="text-sm text-muted">У пользователя нет storage в ответе API.</p>
               </Card>
             ) : (
               data.storages.map((storage) => (
                 <Card key={storage.id} className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
-                    <p className="font-medium text-slate-100">Storage</p>
-                    <p className="mt-0.5 truncate font-mono text-xs text-slate-500">{storage.id}</p>
-                    <p className="mt-2 text-sm text-slate-400">{storage.items.length} элементов</p>
+                    <p className="font-medium text-foreground">Storage</p>
+                    <p className="mt-0.5 truncate font-mono text-xs text-muted">{storage.id}</p>
+                    <p className="mt-2 text-sm text-muted">{storage.items.length} элементов</p>
                   </div>
                   <Link
                     href={`/admin/users/${userId}/storage/${storage.id}`}

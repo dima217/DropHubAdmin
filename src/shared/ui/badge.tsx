@@ -7,9 +7,9 @@ type Props = {
 
 export function Badge({ children, kind = "active" }: Props) {
   const classes = {
-    active: "bg-emerald-500/20 text-emerald-300",
-    deleted: "bg-slate-700 text-slate-300",
-    warning: "bg-amber-500/20 text-amber-200",
+    active: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+    deleted: "bg-surface-hover text-muted",
+    warning: "bg-amber-500/15 text-amber-800 dark:text-amber-200",
   }[kind];
 
   return (

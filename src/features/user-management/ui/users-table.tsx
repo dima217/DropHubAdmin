@@ -29,7 +29,7 @@ export function UsersTable({ users }: Props) {
   return (
     <Card className="overflow-auto p-0">
       <table className="w-full text-left">
-        <thead className="bg-slate-800/70 text-xs text-slate-400">
+        <thead className="bg-surface-hover text-xs text-muted">
           <tr>
             <th className="px-4 py-3">Email</th>
             <th className="px-4 py-3">Role</th>
@@ -39,7 +39,7 @@ export function UsersTable({ users }: Props) {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="border-t border-slate-800 text-sm">
+            <tr key={user.id} className="border-t border-border text-sm">
               <td className="px-4 py-3">{user.email}</td>
               <td className="px-4 py-3">{user.role}</td>
               <td className="px-4 py-3">{user.isBanned ? "Banned" : "Active"}</td>

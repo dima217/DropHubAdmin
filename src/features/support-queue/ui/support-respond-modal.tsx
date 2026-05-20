@@ -20,24 +20,24 @@ export function SupportRespondModal({ ticket, pending = false, onClose, onSubmit
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <button className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} aria-label="Close modal" />
-      <div className="relative w-full max-w-xl rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-2xl">
-        <p className="text-xs text-slate-500">Ticket #{ticket.id}</p>
-        <h3 className="mt-1 text-lg font-semibold text-white">{ticket.title}</h3>
-        <p className="mt-2 text-sm text-slate-300">{ticket.details}</p>
+      <div className="relative w-full max-w-xl rounded-2xl border border-border bg-card p-5 shadow-2xl">
+        <p className="text-xs text-muted">Ticket #{ticket.id}</p>
+        <h3 className="mt-1 text-lg font-semibold text-foreground">{ticket.title}</h3>
+        <p className="mt-2 text-sm text-muted">{ticket.details}</p>
 
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Ответ администратора..."
-          className="mt-4 min-h-36 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-blue-500"
+          className="mt-4 min-h-36 w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground outline-none focus:border-blue-500"
         />
 
-        <label className="mt-3 flex items-center gap-2 text-sm text-slate-300">
+        <label className="mt-3 flex items-center gap-2 text-sm text-foreground">
           <input
             type="checkbox"
             checked={markResolved}
             onChange={(e) => setMarkResolved(e.target.checked)}
-            className="size-4 rounded border-slate-600 bg-slate-950"
+            className="size-4 rounded border-border bg-input"
           />
           Сразу закрыть обращение как `resolved`
         </label>

@@ -44,8 +44,8 @@ export default async function StatisticListPage({
     <FadeIn>
       <section className="space-y-5">
         <header className="space-y-1">
-          <h1 className="text-3xl font-semibold tracking-tight text-white">{metricMap[key]}</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">{metricMap[key]}</h1>
+          <p className="text-sm text-muted">
             Список из статистики. У записей есть переход в users, а если API вернул `userId/storageId` -
             также прямой переход в конкретный storage.
           </p>
@@ -53,9 +53,9 @@ export default async function StatisticListPage({
 
         <Card className="overflow-hidden p-0">
           {rows.length === 0 ? (
-            <p className="p-6 text-sm text-slate-400">Список пуст.</p>
+            <p className="p-6 text-sm text-muted">Список пуст.</p>
           ) : (
-            <ul className="divide-y divide-slate-800/80">
+            <ul className="divide-y divide-border">
               {rows.map((row, i) => {
                 const emailQuery = row.email ?? (row.label.includes("@") ? row.label : "");
                 const userHref = row.userId
@@ -69,21 +69,21 @@ export default async function StatisticListPage({
                 return (
                   <li key={`${row.label}-${i}`} className="flex flex-wrap items-center justify-between gap-3 p-4">
                     <div>
-                      <p className="text-sm font-medium text-slate-100">{row.label}</p>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-sm font-medium text-foreground">{row.label}</p>
+                      <p className="text-xs text-muted">
                         {key === "storageUsageTop" ? formatBytes(row.value) : row.value}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <Link
                         href={userHref}
-                        className="rounded-lg border border-slate-700 bg-slate-800/50 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-blue-500/50"
+                        className="rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-foreground hover:border-blue-500/50 hover:bg-surface-hover"
                       >
                         К пользователю
                       </Link>
                       <Link
                         href={emailQuery ? `/admin/users?email=${encodeURIComponent(emailQuery)}` : "/admin/users"}
-                        className="rounded-lg border border-slate-700 bg-slate-800/50 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-blue-500/50"
+                        className="rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-foreground hover:border-blue-500/50 hover:bg-surface-hover"
                       >
                         К списку users
                       </Link>

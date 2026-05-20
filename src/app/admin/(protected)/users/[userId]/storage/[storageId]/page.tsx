@@ -15,7 +15,7 @@ export default async function UserStoragePage({ params }: Props) {
     <FadeIn>
       <section className="space-y-4">
         <h1 className="text-3xl font-semibold">Storage tree</h1>
-        <p className="text-sm text-slate-400">User: {data.user.email}</p>
+        <p className="text-sm text-muted">User: {data.user.email}</p>
         <StorageTree items={storage?.items ?? []} />
       </section>
     </FadeIn>

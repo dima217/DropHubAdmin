@@ -64,7 +64,7 @@ export function StorageTree({ items }: Props) {
             className={`rounded-xl px-3 py-1.5 text-sm font-medium transition ${
               filter === t.id
                 ? "bg-blue-500/20 text-blue-200 ring-1 ring-blue-500/40"
-                : "text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+                : "text-muted hover:bg-surface-hover hover:text-foreground"
             }`}
           >
             {t.label}
@@ -74,12 +74,12 @@ export function StorageTree({ items }: Props) {
 
       <Card className="space-y-3">
         {filtered.length === 0 ? (
-          <p className="py-8 text-center text-sm text-slate-500">Нет элементов для выбранного фильтра.</p>
+          <p className="py-8 text-center text-sm text-muted">Нет элементов для выбранного фильтра.</p>
         ) : (
           filtered.map((item) => (
-            <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 p-3">
+            <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border p-3">
               <div className="min-w-0">
-                <p className="font-medium text-slate-100">{item.name}</p>
+                <p className="font-medium text-foreground">{item.name}</p>
                 <div className="mt-1 flex flex-wrap gap-2">
                   {!item.deletedAt && <Badge>Active</Badge>}
                   {item.deletedAt ? <Badge kind="deleted">Deleted</Badge> : null}
