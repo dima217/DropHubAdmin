@@ -1,6 +1,7 @@
 import { apiRequest } from "@/shared/api/http";
 import {
   AdminStatistics,
+  StorageFilter,
   SupportTicket,
   UserStoragesResponse,
   UsersListResponse,
@@ -28,9 +29,18 @@ export const adminApi = {
       { token },
     );
   },
-  getUserStorages(token: string, userId: string) {
+  getUserStorages(
+    token: string,
+    userId: string,
+    opts: { page?: number; limit?: number; filter?: StorageFilter } = {},
+  ) {
+    const q = new URLSearchParams({
+      page: String(opts.page ?? 1),
+      limit: String(opts.limit ?? 50),
+      filter: opts.filter ?? "all",
+    });
     return apiRequest<UserStoragesResponse>(
-      `/storage/admin/users/${userId}/storages`,
+      `/storage/admin/users/${userId}/storages?${q}`,
       { token },
     );
   },

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { adminApi } from "@/shared/api/admin-api";
 import { requireAdminToken } from "@/shared/lib/auth-server";
 import { cn } from "@/shared/lib/cn";
+import { formatBytes } from "@/shared/lib/format-bytes";
 import { Card } from "@/shared/ui/card";
 import { FadeIn } from "@/shared/ui/fade-in";
 
@@ -50,7 +51,22 @@ export default async function UserDetailsPage({ params }: Props) {
                   <div className="min-w-0">
                     <p className="font-medium text-foreground">Storage</p>
                     <p className="mt-0.5 truncate font-mono text-xs text-muted">{storage.id}</p>
-                    <p className="mt-2 text-sm text-muted">{storage.items.length} элементов</p>
+                    <div className="mt-2 flex flex-wrap gap-3 text-sm text-muted">
+                      <span>
+                        Использовано:{" "}
+                        <span className="font-medium text-foreground">{formatBytes(storage.usedBytes ?? 0)}</span>
+                      </span>
+                      <span>
+                        Лимит:{" "}
+                        <span className="font-medium text-foreground">{formatBytes(storage.maxBytes)}</span>
+                      </span>
+                      {storage.pagination ? (
+                        <span>
+                          Элементов:{" "}
+                          <span className="font-medium text-foreground">{storage.pagination.total}</span>
+                        </span>
+                      ) : null}
+                    </div>
                   </div>
                   <Link
                     href={`/admin/users/${userId}/storage/${storage.id}`}

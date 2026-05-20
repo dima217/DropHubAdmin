@@ -21,19 +21,36 @@ export type StorageItem = {
   name: string;
   isDirectory: boolean;
   parentId: string | null;
+  storageId: string;
   deletedAt: string | null;
   permanentDeleteAt: string | null;
   childrenCount: number;
   filesCount: number;
   foldersCount: number;
+  fileMeta?: {
+    size: number;
+    mimeType: string;
+    downloadCount: number;
+  };
 };
+
+export type StoragePagination = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export type StorageFilter = "all" | "deleted" | "pending";
 
 export type UserStorage = {
   id: string;
   createdAt: string;
   maxBytes: number;
+  usedBytes: number;
   userRole: string;
   items: StorageItem[];
+  pagination: StoragePagination;
 };
 
 export type UserStoragesResponse = {
