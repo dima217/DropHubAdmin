@@ -8,6 +8,7 @@ import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { StorageRestoreModal } from "@/entities/storage/ui/storage-restore-modal";
+import { cn } from "@/shared/lib/cn";
 
 type Props = { items: StorageItem[] };
 
@@ -17,6 +18,7 @@ export function StorageTree({ items }: Props) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState<Filter>("all");
+  const [search, setSearch] = useState("");
   const [restoreItem, setRestoreItem] = useState<StorageItem | null>(null);
   const [restoreKey, setRestoreKey] = useState(0);
 
@@ -26,10 +28,13 @@ export function StorageTree({ items }: Props) {
   );
 
   const filtered = useMemo(() => {
-    if (filter === "deleted") return items.filter((i) => i.deletedAt);
-    if (filter === "pending") return items.filter((i) => i.permanentDeleteAt);
-    return items;
-  }, [items, filter]);
+    let result = items;
+    if (filter === "deleted") result = result.filter((i) => i.deletedAt);
+    else if (filter === "pending") result = result.filter((i) => i.permanentDeleteAt);
+    const q = search.trim().toLowerCase();
+    if (q) result = result.filter((i) => i.name.toLowerCase().includes(q));
+    return result;
+  }, [items, filter, search]);
 
   const restoreMutation = useMutation({
     mutationFn: async (payload: { itemId: string; newParentId?: string | null }) => {
@@ -55,21 +60,43 @@ export function StorageTree({ items }: Props) {
 
   return (
     <>
-      <div className="mb-4 flex flex-wrap gap-2">
-        {tabs.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setFilter(t.id)}
-            className={`rounded-xl px-3 py-1.5 text-sm font-medium transition ${
-              filter === t.id
-                ? "bg-blue-500/20 text-blue-200 ring-1 ring-blue-500/40"
-                : "text-muted hover:bg-surface-hover hover:text-foreground"
-            }`}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap gap-1">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setFilter(t.id)}
+              className={cn(
+                "rounded-xl px-3 py-1.5 text-sm font-medium transition",
+                filter === t.id
+                  ? "bg-blue-500/15 text-blue-700 ring-1 ring-blue-500/40 dark:bg-blue-500/20 dark:text-blue-300 dark:ring-blue-500/40"
+                  : "text-muted hover:bg-surface-hover hover:text-foreground",
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="relative ml-auto w-full sm:w-56">
+          <svg
+            className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden
           >
-            {t.label}
-          </button>
-        ))}
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Поиск по названию…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-xl border border-border bg-input py-1.5 pl-8 pr-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+          />
+        </div>
       </div>
 
       <Card className="space-y-3">
