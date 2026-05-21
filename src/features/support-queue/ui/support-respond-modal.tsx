@@ -19,9 +19,9 @@ export function SupportRespondModal({ ticket, pending = false, onClose, onSubmit
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} aria-label="Close modal" />
+      <button className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} aria-label="Закрыть модальное окно" />
       <div className="relative w-full max-w-xl rounded-2xl border border-border bg-card p-5 shadow-2xl">
-        <p className="text-xs text-muted">Ticket #{ticket.id}</p>
+        <p className="text-xs text-muted">Обращение №{ticket.id}</p>
         <h3 className="mt-1 text-lg font-semibold text-foreground">{ticket.title}</h3>
         <p className="mt-2 text-sm text-muted">{ticket.details}</p>
 
@@ -39,7 +39,7 @@ export function SupportRespondModal({ ticket, pending = false, onClose, onSubmit
             onChange={(e) => setMarkResolved(e.target.checked)}
             className="size-4 rounded border-border bg-input"
           />
-          Сразу закрыть обращение как `resolved`
+          Сразу закрыть обращение как «Решено»
         </label>
 
         <div className="mt-5 flex justify-end gap-2">

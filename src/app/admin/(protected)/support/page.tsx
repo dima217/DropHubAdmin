@@ -10,7 +10,7 @@ export default async function AdminSupportPage() {
   return (
     <FadeIn>
       <section className="space-y-4">
-        <h1 className="text-3xl font-semibold">Support queue</h1>
+        <h1 className="text-3xl font-semibold">Очередь обращений</h1>
         <SupportList tickets={data.items} />
       </section>
     </FadeIn>

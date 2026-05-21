@@ -24,11 +24,11 @@ const emptyStats = {
 };
 
 const metricMap = {
-  storageUsageTop: "Storage usage (top)",
-  uploadLeaders: "Upload leaders",
-  suspiciousTraffic: "Suspicious traffic",
-  inactiveAccounts: "Inactive accounts",
-  mostLoadedFolders: "Most loaded folders",
+  storageUsageTop: "Топ по хранилищу",
+  uploadLeaders: "Лидеры загрузок",
+  suspiciousTraffic: "Подозрительный трафик",
+  inactiveAccounts: "Неактивные аккаунты",
+  mostLoadedFolders: "Нагруженные папки",
 } as const;
 
 type Metric = keyof typeof metricMap;
@@ -38,7 +38,7 @@ function UserLink({ userId, email }: { userId: number; email: string }) {
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div>
         <p className="text-sm font-medium text-foreground">{email}</p>
-        <p className="text-xs text-muted">userId: {userId}</p>
+        <p className="text-xs text-muted">ID: {userId}</p>
       </div>
       <div className="flex gap-2">
         <Link

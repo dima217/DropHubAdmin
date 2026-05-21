@@ -22,8 +22,8 @@ export default async function DashboardPage() {
     <FadeIn>
       <section className="space-y-8">
         <header>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Dashboard</h1>
-          <p className="mt-1 text-sm text-muted">Сводка по API statistics.</p>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Дашборд</h1>
+          <p className="mt-1 text-sm text-muted">Сводка по API статистики.</p>
         </header>
         <StatsOverview stats={stats} />
         <StatsChart stats={stats} />

@@ -13,28 +13,28 @@ export function StatsOverview({ stats }: Props) {
 
   const cards = [
     {
-      label: "Storage usage (top)",
+      label: "Топ по хранилищу",
       primary: stats.storageUsageTop.length ? formatBytes(totalStorage) : "—",
       hint: stats.storageUsageTop.length ? `${stats.storageUsageTop.length} пользователей в топе` : "Нет данных",
       href: "/admin/statistics/storageUsageTop",
       accent: "blue",
     },
     {
-      label: "Upload leaders",
+      label: "Лидеры загрузок",
       primary: stats.uploadLeaders.length ? String(totalUploads) : "—",
       hint: stats.uploadLeaders.length ? `${stats.uploadLeaders.length} пользователей, ${totalUploads} загрузок` : "Нет данных",
       href: "/admin/statistics/uploadLeaders",
       accent: "green",
     },
     {
-      label: "Suspicious traffic",
+      label: "Подозрительный трафик",
       primary: stats.suspiciousTraffic.length ? String(stats.suspiciousTraffic.length) : "—",
-      hint: stats.suspiciousTraffic.length ? `Макс. score: ${maxScore}` : "Нет подозрений",
+      hint: stats.suspiciousTraffic.length ? `Макс. балл: ${maxScore}` : "Нет подозрений",
       href: "/admin/statistics/suspiciousTraffic",
       accent: maxScore >= 50 ? "red" : maxScore >= 20 ? "yellow" : "green",
     },
     {
-      label: "Inactive accounts",
+      label: "Неактивные аккаунты",
       primary: inactiveCount ? String(inactiveCount) : "—",
       hint: inactiveCount ? `${inactiveCount} без активности` : "Нет данных",
       href: "/admin/statistics/inactiveAccounts",
@@ -66,7 +66,7 @@ export function StatsOverview({ stats }: Props) {
       {stats.mostLoadedFolders.length > 0 ? (
         <Card className="sm:col-span-2 xl:col-span-4">
           <Link href="/admin/statistics/mostLoadedFolders" className="text-sm text-muted hover:text-blue-500">
-            Most loaded folders
+            Нагруженные папки
           </Link>
           <ul className="mt-3 flex flex-wrap gap-2">
             {stats.mostLoadedFolders.slice(0, 6).map((r, i) => (

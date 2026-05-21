@@ -10,11 +10,11 @@ import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts"
 type Props = { stats: AdminStatistics };
 
 const DEMO = [
-  { label: "Mon", value: 40 },
-  { label: "Tue", value: 62 },
-  { label: "Wed", value: 55 },
-  { label: "Thu", value: 71 },
-  { label: "Fri", value: 48 },
+  { label: "Пн", value: 40 },
+  { label: "Вт", value: 62 },
+  { label: "Ср", value: 55 },
+  { label: "Чт", value: 71 },
+  { label: "Пт", value: 48 },
 ];
 
 const CHART_HEIGHT = 288;
@@ -58,7 +58,7 @@ export function StatsChart({ stats }: Props) {
     <Card>
       <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="text-lg font-semibold text-foreground">Upload activity</p>
+          <p className="text-lg font-semibold text-foreground">Активность загрузок</p>
           <p className="text-xs text-muted">Лидеры загрузок за период (или демо-данные, если API пустой)</p>
         </div>
       </div>

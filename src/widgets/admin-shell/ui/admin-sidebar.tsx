@@ -7,9 +7,9 @@ import { ThemeToggle } from "@/features/theme/ui/theme-toggle";
 import { cn } from "@/shared/lib/cn";
 
 const links = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: IconChart },
-  { href: "/admin/users", label: "Users", icon: IconUsers },
-  { href: "/admin/support", label: "Support", icon: IconLifebuoy },
+  { href: "/admin/dashboard", label: "Дашборд", icon: IconChart },
+  { href: "/admin/users", label: "Пользователи", icon: IconUsers },
+  { href: "/admin/support", label: "Поддержка", icon: IconLifebuoy },
 ] as const;
 
 export function AdminSidebar() {
@@ -24,7 +24,7 @@ export function AdminSidebar() {
           </div>
           <div>
             <p className="text-sm font-semibold tracking-tight text-foreground">DropHub</p>
-            <p className="text-xs text-muted">Admin</p>
+            <p className="text-xs text-muted">Администратор</p>
           </div>
         </div>
       </div>

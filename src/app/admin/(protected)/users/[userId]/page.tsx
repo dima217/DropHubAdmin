@@ -49,7 +49,7 @@ export default async function UserDetailsPage({ params }: Props) {
               data.storages.map((storage) => (
                 <Card key={storage.id} className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
-                    <p className="font-medium text-foreground">Storage</p>
+                    <p className="font-medium text-foreground">Хранилище</p>
                     <p className="mt-0.5 truncate font-mono text-xs text-muted">{storage.id}</p>
                     <div className="mt-2 flex flex-wrap gap-3 text-sm text-muted">
                       <span>

@@ -17,9 +17,9 @@ type Props = {
 };
 
 const TABS: { id: StorageFilter; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "deleted", label: "Deleted" },
-  { id: "pending", label: "Pending delete" },
+  { id: "all", label: "Все" },
+  { id: "deleted", label: "Удалённые" },
+  { id: "pending", label: "Ожидают удаления" },
 ];
 
 export function StorageTree({ items, pagination, filter }: Props) {
@@ -120,16 +120,16 @@ export function StorageTree({ items, pagination, filter }: Props) {
               <div className="min-w-0">
                 <p className="font-medium text-foreground">{item.name}</p>
                 <div className="mt-1 flex flex-wrap gap-2">
-                  {!item.deletedAt && <Badge>Active</Badge>}
-                  {item.deletedAt ? <Badge kind="deleted">Deleted</Badge> : null}
+                  {!item.deletedAt && <Badge>Активен</Badge>}
+                  {item.deletedAt ? <Badge kind="deleted">Удалён</Badge> : null}
                   {item.permanentDeleteAt ? (
                     <Badge kind="warning">
-                      Will be removed at {new Date(item.permanentDeleteAt).toLocaleString()}
+                      Будет удалён {new Date(item.permanentDeleteAt).toLocaleString("ru-RU")}
                     </Badge>
                   ) : null}
                   {item.fileMeta ? (
                     <span className="text-xs text-muted">
-                      {(item.fileMeta.size / 1024).toFixed(1)} KB · {item.fileMeta.mimeType} · {item.fileMeta.downloadCount} скачиваний
+                      {(item.fileMeta.size / 1024).toFixed(1)} КБ · {item.fileMeta.mimeType} · {item.fileMeta.downloadCount} скачиваний
                     </span>
                   ) : null}
                 </div>
@@ -141,7 +141,7 @@ export function StorageTree({ items, pagination, filter }: Props) {
                     setRestoreItem(item);
                   }}
                 >
-                  Restore…
+                  Восстановить…
                 </Button>
               ) : null}
             </div>

@@ -26,13 +26,13 @@ export function AdminLoginForm() {
 
       if (!res.ok) {
         const payload = (await res.json().catch(() => ({}))) as { message?: string };
-        setError(payload.message ?? "Login failed");
+        setError(payload.message ?? "Ошибка входа");
         return;
       }
 
       window.location.assign("/admin/dashboard");
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Что-то пошло не так. Попробуйте ещё раз.");
     } finally {
       setIsPending(false);
     }
@@ -44,19 +44,19 @@ export function AdminLoginForm() {
         name="email"
         type="email"
         required
-        placeholder="Email"
+        placeholder="Электронная почта"
         className="w-full rounded-xl border border-border bg-input px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
       />
       <input
         name="password"
         type="password"
         required
-        placeholder="Password"
+        placeholder="Пароль"
         className="w-full rounded-xl border border-border bg-input px-3 py-2 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
       />
       {error && <p className="text-sm text-rose-400">{error}</p>}
       <Button type="submit" className="w-full" disabled={isPending} aria-busy={isPending}>
-        {isPending ? "Signing in..." : "Sign In"}
+        {isPending ? "Вход..." : "Войти"}
       </Button>
     </form>
   );

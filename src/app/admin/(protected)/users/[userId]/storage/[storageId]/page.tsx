@@ -29,7 +29,7 @@ export default async function UserStoragePage({ params, searchParams }: Props) {
   return (
     <FadeIn>
       <section className="space-y-4">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Storage</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Хранилище</h1>
         <p className="text-sm text-muted">
           Пользователь: <span className="text-foreground">{data.user.email}</span>
         </p>

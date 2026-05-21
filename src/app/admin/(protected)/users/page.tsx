@@ -18,12 +18,12 @@ export default async function UsersPage({ searchParams }: Props) {
   return (
     <FadeIn>
       <section className="space-y-4">
-        <h1 className="text-3xl font-semibold">Users</h1>
+        <h1 className="text-3xl font-semibold">Пользователи</h1>
         <form className="max-w-md">
           <input
             name="email"
             defaultValue={email}
-            placeholder="Search email..."
+            placeholder="Поиск по email..."
             className="w-full rounded-xl border border-border bg-input px-4 py-2 outline-none focus:border-blue-500"
           />
         </form>

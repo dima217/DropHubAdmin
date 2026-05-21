@@ -32,9 +32,9 @@ export function UsersTable({ users }: Props) {
         <thead className="bg-surface-hover text-xs text-muted">
           <tr>
             <th className="px-4 py-3">Email</th>
-            <th className="px-4 py-3">Role</th>
-            <th className="px-4 py-3">Status</th>
-            <th className="px-4 py-3">Actions</th>
+            <th className="px-4 py-3">Роль</th>
+            <th className="px-4 py-3">Статус</th>
+            <th className="px-4 py-3">Действия</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@ export function UsersTable({ users }: Props) {
             <tr key={user.id} className="border-t border-border text-sm">
               <td className="px-4 py-3">{user.email}</td>
               <td className="px-4 py-3">{user.role}</td>
-              <td className="px-4 py-3">{user.isBanned ? "Banned" : "Active"}</td>
+              <td className="px-4 py-3">{user.isBanned ? "Заблокирован" : "Активен"}</td>
               <td className="flex flex-wrap gap-2 px-4 py-3">
                 <Button onClick={() => router.push(`/admin/users/${user.id}#storages`)} variant="primary">
                   Хранилища
@@ -51,7 +51,7 @@ export function UsersTable({ users }: Props) {
                   variant={user.isBanned ? "secondary" : "danger"}
                   onClick={() => banMutation.mutate({ id: user.id, isBanned: !user.isBanned })}
                 >
-                  {user.isBanned ? "Unban" : "Ban"}
+                  {user.isBanned ? "Разблокировать" : "Заблокировать"}
                 </Button>
               </td>
             </tr>

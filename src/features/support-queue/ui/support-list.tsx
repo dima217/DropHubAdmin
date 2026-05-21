@@ -11,6 +11,12 @@ import { SupportRespondModal } from "@/features/support-queue/ui/support-respond
 
 type Props = { tickets: SupportTicket[] };
 
+const STATUS_LABELS: Record<string, string> = {
+  open: "Открыт",
+  in_progress: "В работе",
+  resolved: "Решён",
+};
+
 export function SupportList({ tickets }: Props) {
   const queryClient = useQueryClient();
   const [activeTicket, setActiveTicket] = useState<SupportTicket | null>(null);
@@ -18,7 +24,7 @@ export function SupportList({ tickets }: Props) {
     queryKey: ["admin-support-tickets"],
     queryFn: async () => {
       const res = await fetch("/api/admin/support");
-      if (!res.ok) throw new Error("Failed to load support tickets");
+      if (!res.ok) throw new Error("Не удалось загрузить обращения");
       return (await res.json()) as { items: SupportTicket[] };
     },
     initialData: { items: tickets },
@@ -66,7 +72,7 @@ export function SupportList({ tickets }: Props) {
           <div className="mb-2 flex items-center justify-between">
             <h3 className="font-medium">{ticket.title}</h3>
             <Badge kind={ticket.status === "resolved" ? "active" : "warning"}>
-              {ticket.status}
+              {STATUS_LABELS[ticket.status] ?? ticket.status}
             </Badge>
           </div>
           <p className="text-sm text-muted">{ticket.details}</p>
